@@ -32,7 +32,7 @@ const initialData = [
     },
 ];
 
-export default function Sales() {
+export default function SalesCustomerSales() {
     const { t } = useTranslation();
     const handleSubmit = (e) => {
         e.preventDefault();

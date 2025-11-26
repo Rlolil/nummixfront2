@@ -42,7 +42,7 @@ const initialTransactions = [
     },
 ];
 
-export default function Transactions() {
+export default function SalesTransactions() {
     const { t } = useTranslation();
     const [transactions, setTransactions] = useState(initialTransactions);
     const [newPayment, setNewPayment] = useState({
