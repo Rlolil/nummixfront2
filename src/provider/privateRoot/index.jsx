@@ -3,8 +3,8 @@ import { Navigate } from "react-router-dom";
 import { getProfile } from "../../services";
 
 function PrivateRoute({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-
+  // const [isAuthenticated, setIsAuthenticated] = useState(null);
+  return children;
   useEffect(() => {
     const checkAuth = async () => {
       try {
