@@ -30,7 +30,7 @@ const data = [
     { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
 ];
 
-export default function Reports() {
+export default function SalesReports() {
     const { t } = useTranslation();
     return (
         <div className="w-full flex flex-col gap-6 dark:bg-[#001233] dark:text-[#FFFFFF]">

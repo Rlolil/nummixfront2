@@ -41,7 +41,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     );
 };
 
-export default function ControlPanel() {
+export default function SalesControlPanel() {
     const { t } = useTranslation();
     return (
         <div className="w-full flex flex-col gap-6 bg-white dark:bg-[#001233]">

@@ -49,6 +49,18 @@ import Inventar from "../components/anbarcompanents/inventar/inventaresas";
 import CariQaliqlar from "../components/anbarcompanents/inventar/cariqalıq";
 import InventarSayimi from "../components/anbarcompanents/inventar/Inventarsayimi";
 import HesabatAnalitika from "../components/anbarcompanents/hesabatlar";
+import Sales from "../pages/supllier/pages/Sales";
+import ControlPanel from "../pages/supllier/pages/ControlPanel";
+import Suppliers from "../pages/supllier/pages/Suppliers";
+import Payments from "../pages/supllier/pages/Payments";
+import Agreements from "../pages/supllier/pages/Agreements";
+import Analytics from "../pages/supllier/pages/Analytics";
+import Cart from "../pages/salescustomers/pages/Cart";
+import SalesControlPanel from "../pages/salescustomers/pages/ControlPanel";
+import Customers from "../pages/salescustomers/pages/Customers";
+import SalesReports from "../pages/salescustomers/pages/Reports";
+import SalesCustomerSales from "../pages/salescustomers/pages/Sales";
+import SalesTransactions from "../pages/salescustomers/pages/Transactions";
 
 export const routers = createBrowserRouter([
   {
@@ -88,6 +100,16 @@ export const routers = createBrowserRouter([
       {
         path: "/supplier",
         element: <Supplier />,
+        children: [
+          { index: true, element: <Navigate to="control-panel" replace /> },
+
+          { path: "control-panel", element: <ControlPanel /> },
+          { path: "suppliers", element: <Suppliers /> },
+          { path: "sales", element: <SalesCustomerSales /> },
+          { path: "agreements", element: <Agreements /> },
+          { path: "payments", element: <Payments /> },
+          { path: "analytics", element: <Analytics /> },
+        ],
       },
       {
         path: "/settings",
@@ -96,7 +118,18 @@ export const routers = createBrowserRouter([
       {
         path: "/salescustomers",
         element: <SalesCustomers />,
+        children: [
+          { index: true, element: <Navigate to="control-panel" replace /> },
+
+          { path: "control-panel", element: <SalesControlPanel /> },
+          { path: "customers", element: <Customers /> },
+          { path: "sales", element: <Sales /> },
+          { path: "cart", element: <Cart /> },
+          { path: "transactions", element: <SalesTransactions /> },
+          { path: "reports", element: <SalesReports /> },
+        ],
       },
+
       {
         path: "/maliyye",
         element: <Maliyye />,
