@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { safeNavigate } from "../../utils/navigation"; // safeNavigate validates internal routes to prevent open redirects
 
 function Header() {
   const { t, i18n } = useTranslation();
@@ -57,7 +58,8 @@ function Header() {
   };
 
   const handleNavigate = (path) => {
-    navigate(path);
+    // Use safeNavigate to ensure only internal paths (starting with '/') are allowed
+    safeNavigate(navigate, path);
     setShowResults(false);
     setQuery("");
   };

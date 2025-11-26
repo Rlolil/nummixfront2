@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import { FiUpload } from "react-icons/fi";
 import { HiClipboardList } from "react-icons/hi";
 import Inventarnav from "../inventarnav";
@@ -24,15 +24,35 @@ export default function Inventar() {
         const file = e.target.files[0];
         if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-            const data = new Uint8Array(evt.target.result);
-            const workbook = XLSX.read(data, { type: "array" });
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-            setInventoryData(worksheet);
-        };
-        reader.readAsArrayBuffer(file);
+            const reader = new FileReader();
+            reader.onload = async (evt) => {
+                try {
+                    // Use ExcelJS to parse the uploaded file instead of the vulnerable xlsx package
+                    const arrayBuffer = evt.target.result;
+                    const workbook = new ExcelJS.Workbook();
+                    await workbook.xlsx.load(arrayBuffer);
+                    const worksheet = workbook.worksheets[0];
+                    const rows = [];
+                    let headers = [];
+                    worksheet.eachRow((row, rowNumber) => {
+                        const values = row.values || [];
+                        // ExcelJS row.values is 1-based: values[1] is first cell
+                        if (rowNumber === 1) {
+                            headers = values.slice(1).map((v) => (v === undefined || v === null ? "" : String(v).trim()));
+                        } else {
+                            const obj = {};
+                            headers.forEach((h, i) => {
+                                obj[h || `col_${i + 1}`] = values[i + 1] ?? "";
+                            });
+                            rows.push(obj);
+                        }
+                    });
+                    setInventoryData(rows);
+                } catch (err) {
+                    console.error("Error parsing uploaded spreadsheet:", err);
+                }
+            };
+            reader.readAsArrayBuffer(file);
     };
 
     return (

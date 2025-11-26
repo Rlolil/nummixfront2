@@ -3,6 +3,7 @@ import { FaRegEdit, FaTrash } from "react-icons/fa";
 import { FaBox } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import { getProducts, createProduct, updateProduct, deleteProduct } from "../../../services";
+import { sanitizeImageSrc } from "../../../utils/sanitizeImage"; // sanitize image src to prevent DOM XSS
 
 const Məhsullar = () => {
 
@@ -195,6 +196,8 @@ const Məhsullar = () => {
           </thead>
           <tbody>
             {filtered.map((m) => {
+              // Sanitize product image before rendering to avoid DOM XSS vectors
+              const safeImg = sanitizeImageSrc(m.image);
               const qaliq = Number(m.quantity);
               let status = "";
               let statusClass = "";
@@ -214,9 +217,9 @@ const Məhsullar = () => {
                   className="border-b border-[#979DAC] last:border-b-0 hover:bg-[#F5F8FF] dark:hover:bg-[#002147] transition-colors"
                 >
                   <td className="py-2">
-                    {m.image ? (
+                    {safeImg ? (
                       <img
-                        src={m.image}
+                        src={safeImg}
                         alt={m.name}
                         className="w-10 h-10 rounded object-cover border border-[#979DAC]"
                       />
@@ -338,10 +341,10 @@ const Məhsullar = () => {
                   {t('pages.warehouse.products.modal.labels.image')}
                 </label>
                 <div className="flex items-center gap-3">
-                  <div className="w-16 h-16 rounded bg-[#FFFFFF] dark:bg-[#001233] border border-[#979DAC] flex items-center justify-center overflow-hidden">
-                    {form.image ? (
+                    <div className="w-16 h-16 rounded bg-[#FFFFFF] dark:bg-[#001233] border border-[#979DAC] flex items-center justify-center overflow-hidden">
+                    {sanitizeImageSrc(form.image) ? (
                       <img
-                        src={form.image}
+                        src={sanitizeImageSrc(form.image)}
                         alt="Preview"
                         className="w-full h-full object-cover"
                       />

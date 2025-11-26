@@ -7,7 +7,8 @@ import AiMini from "../../pages/aimini";
 function MainLayout() {
   const navigate = useNavigate()
   useEffect(() => {
-    navigate("muhasibat/dashboard")
+    // Ensure initial redirect uses an internal absolute path
+    navigate("/muhasibat/dashboard")
   }, [])
   // Ensure saved theme is applied on initial load (dark/light)
   useEffect(() => {
